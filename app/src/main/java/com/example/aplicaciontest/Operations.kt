@@ -3,7 +3,7 @@ package com.example.aplicaciontest
 import android.widget.TextView
 import java.math.BigDecimal
 
-class Operations {
+open class Operations {
     enum class Operators{PLUS,MINUS,MULTIPLY,DIVIDE,EQUAL,POWER,PERCENT,NONE}
 
     var accumulator:BigDecimal = BigDecimal(0)
@@ -26,7 +26,7 @@ class Operations {
 
     }
 
-    fun NumberPressed(value:BigDecimal, writeText: TextView, resultText:TextView, operatorText:TextView){
+    fun numberPressed(value:BigDecimal, writeText: TextView, resultText:TextView, operatorText:TextView){
         //Definimos de que forma se insertaran los numeros segun si son decimales o no
         if(!isDecimal) {
             accumulator = accumulator * BigDecimal(10) + value
@@ -59,7 +59,7 @@ class Operations {
 
     }
 
-    fun DeleteNum(writeText: TextView){
+    fun deleteNum(writeText: TextView){
         var accumulatorS = "$accumulator"
         //Si es decimal restamos el contador de decimales, si no hay ningun decimal dejara de ser un numero decimal
         if(isDecimal){
@@ -97,22 +97,29 @@ class Operations {
             accumulator = accumulatorS.toBigDecimal()
         }
         //Aqui definimos lo que hara cada operacion
-        result = when(currentOperations){
-            Operators.PLUS ->  result + accumulator
-            Operators.MINUS -> result - accumulator
-            Operators.MULTIPLY -> result * accumulator
-            Operators.DIVIDE -> result / accumulator
-            Operators.EQUAL -> result
-            Operators.POWER -> BigDecimal(Math.pow(result.toDouble(),accumulator.toDouble()))
-            Operators.PERCENT -> result * accumulator / BigDecimal(100)
-            Operators.NONE -> accumulator
+        try {
+            result = when (currentOperations) {
+                Operators.PLUS -> result + accumulator
+                Operators.MINUS -> result - accumulator
+                Operators.MULTIPLY -> result * accumulator
+                Operators.DIVIDE -> result / accumulator
+                Operators.EQUAL -> result
+                Operators.POWER -> BigDecimal(Math.pow(result.toDouble(), accumulator.toDouble()))
+                Operators.PERCENT -> result * accumulator / BigDecimal(100)
+                Operators.NONE -> accumulator
+            }
 
+
+
+            resultText.setText("$result")
+        } catch (e: ArithmeticException) {
+            resultText.setText("${e.message}")
+            result = BigDecimal(0)
         }
 
         accumulator = BigDecimal(0)
 
         writeText.setText("$accumulator")
-        resultText.setText("$result")
         decimalCounter = 0
         isDecimal = false
     }

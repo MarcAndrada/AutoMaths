@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import com.example.aplicaciontest.databinding.FragmentFirstBinding
 import java.math.BigDecimal
-import com.example.aplicaciontest.Operations.*
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -55,35 +53,35 @@ class FirstFragment : Fragment() {
 
         //Aqui llamaremos a la funcion correspondiente de cada boton definido en la clase de Operations.kt
         view.findViewById<Button>(R.id.key_0).setOnClickListener {
-                numerator.NumberPressed(BigDecimal(0),myText,myResultText,myOperatorText)
+                numerator.numberPressed(BigDecimal(0),myText,myResultText,myOperatorText)
         }
         view.findViewById<Button>(R.id.key_1).setOnClickListener {
-            numerator.NumberPressed(BigDecimal(1),myText,myResultText,myOperatorText)
+            numerator.numberPressed(BigDecimal(1),myText,myResultText,myOperatorText)
         }
         view.findViewById<Button>(R.id.key_2).setOnClickListener {
-            numerator.NumberPressed(BigDecimal(2),myText,myResultText,myOperatorText)
+            numerator.numberPressed(BigDecimal(2),myText,myResultText,myOperatorText)
         }
         view.findViewById<Button>(R.id.key_3).setOnClickListener {
-            numerator.NumberPressed(BigDecimal(3),myText,myResultText,myOperatorText)
+            numerator.numberPressed(BigDecimal(3),myText,myResultText,myOperatorText)
         }
         view.findViewById<Button>(R.id.key_4).setOnClickListener {
-            numerator.NumberPressed(BigDecimal(4),myText,myResultText,myOperatorText)
+            numerator.numberPressed(BigDecimal(4),myText,myResultText,myOperatorText)
         }
         view.findViewById<Button>(R.id.key_5).setOnClickListener {
-            numerator.NumberPressed(BigDecimal(5),myText,myResultText,myOperatorText)
+            numerator.numberPressed(BigDecimal(5),myText,myResultText,myOperatorText)
         }
         view.findViewById<Button>(R.id.key_6).setOnClickListener {
-            numerator.NumberPressed(BigDecimal(6),myText,myResultText,myOperatorText)
+            numerator.numberPressed(BigDecimal(6),myText,myResultText,myOperatorText)
         }
         view.findViewById<Button>(R.id.key_7).setOnClickListener {
-            numerator.NumberPressed(BigDecimal(7),myText,myResultText,myOperatorText)
+            numerator.numberPressed(BigDecimal(7),myText,myResultText,myOperatorText)
         }
         view.findViewById<Button>(R.id.key_8).setOnClickListener {
-            numerator.NumberPressed(BigDecimal(8),myText,myResultText,myOperatorText)
+            numerator.numberPressed(BigDecimal(8),myText,myResultText,myOperatorText)
 
         }
         view.findViewById<Button>(R.id.key_9).setOnClickListener {
-            numerator.NumberPressed(BigDecimal(9),myText,myResultText,myOperatorText)
+            numerator.numberPressed(BigDecimal(9),myText,myResultText,myOperatorText)
         }
 
         view.findViewById<Button>(R.id.key_equal).setOnClickListener {
@@ -107,7 +105,7 @@ class FirstFragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.key_delete).setOnClickListener {
-            numerator.DeleteNum(myText)
+            numerator.deleteNum(myText)
         }
 
         view.findViewById<Button>(R.id.key_reset).setOnClickListener {

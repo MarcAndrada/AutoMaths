@@ -24,7 +24,7 @@ import java.io.File
 
 class MainActivity : AppCompatActivity() {
     val request = 3
-    var file:File? = null
+    var fileUri: Uri? = null
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private val requestPermissionLauncher =
@@ -45,7 +45,10 @@ class MainActivity : AppCompatActivity() {
     val cameraLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { isTaken: Boolean ->
             if (isTaken) {
-
+                val cameraReader = CameraReader()
+                fileUri?.let {
+                    cameraReader.getImageData(applicationContext,it)
+                }
                 // TODO
             }
         }
@@ -94,18 +97,14 @@ class MainActivity : AppCompatActivity() {
 
     fun openCamera() {
 
-        file = File.createTempFile(
+        val file = File.createTempFile(
             "example_image", ".jpg",
            externalCacheDir
         )
 
-        val fileUri = FileProvider.getUriForFile(
+        fileUri = FileProvider.getUriForFile(
             this,
-            "com.example.aplicaciontest.fileprovider",
-            file?:createTempFile(
-                    "example_image", ".jpg",
-            externalCacheDir
-        )
+            "com.example.aplicaciontest.fileprovider",file
         )
 
 
