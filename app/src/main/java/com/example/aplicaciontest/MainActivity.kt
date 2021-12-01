@@ -10,7 +10,9 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -20,11 +22,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import com.example.aplicaciontest.databinding.ActivityMainBinding
 import java.io.File
+import java.math.BigDecimal
 
 
 class MainActivity : AppCompatActivity() {
-    val request = 3
     var fileUri: Uri? = null
+    var cameraData = ""
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private val requestPermissionLauncher =
@@ -46,9 +49,21 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.TakePicture()) { isTaken: Boolean ->
             if (isTaken) {
                 val cameraReader = CameraReader()
+
                 fileUri?.let {
-                    cameraReader.getImageData(applicationContext,it)
+                    cameraData = cameraReader.getImageData(applicationContext,it)
                 }
+
+                if (cameraData != ""){
+                    cameraData.forEach {
+                        when(it){
+                           '0' ->
+                        }
+
+                    }
+
+                }
+
                 // TODO
             }
         }
@@ -59,6 +74,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val myText = findViewById<TextView>(R.id.editTextNumber)
+        val myOperatorText = findViewById<TextView>(R.id.operatorText)
+        val myResultText = findViewById<TextView>(R.id.result_number)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //binding.camIcon.setOnClickListener {
@@ -83,6 +101,151 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+
+
+
+        val numerator = Operations()
+        myText.setText("0")
+        myResultText.setText("0")
+
+        //Aqui llamaremos a la funcion correspondiente de cada boton definido en la clase de Operations.kt
+        findViewById<Button>(R.id.key_0).setOnClickListener {
+            val result = numerator.numberPressed(BigDecimal(0))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
+
+        }
+        findViewById<Button>(R.id.key_1).setOnClickListener {
+            val result = numerator.numberPressed(BigDecimal(1))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
+        }
+        findViewById<Button>(R.id.key_2).setOnClickListener {
+            val result = numerator.numberPressed(BigDecimal(2))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
+        }
+        findViewById<Button>(R.id.key_3).setOnClickListener {
+            val result = numerator.numberPressed(BigDecimal(3))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
+        }
+        findViewById<Button>(R.id.key_4).setOnClickListener {
+            val result = numerator.numberPressed(BigDecimal(4))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
+        }
+        findViewById<Button>(R.id.key_5).setOnClickListener {
+            val result = numerator.numberPressed(BigDecimal(5))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
+        }
+        findViewById<Button>(R.id.key_6).setOnClickListener {
+            val result = numerator.numberPressed(BigDecimal(6))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
+        }
+        findViewById<Button>(R.id.key_7).setOnClickListener {
+            val result = numerator.numberPressed(BigDecimal(7))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
+        }
+        findViewById<Button>(R.id.key_8).setOnClickListener {
+            val result = numerator.numberPressed(BigDecimal(8))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
+
+        }
+        findViewById<Button>(R.id.key_9).setOnClickListener {
+            val result = numerator.numberPressed(BigDecimal(9))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
+        }
+
+        findViewById<Button>(R.id.key_equal).setOnClickListener {
+            val result = numerator.equalFun()
+            myText.setText("${result.accumulator}")
+            if (result.error == ""){
+                myResultText.setText("${result.result}")
+                myOperatorText.setText("=")
+            }else{
+                myResultText.setText(result.error)
+            }
+        }
+
+        findViewById<Button>(R.id.key_plus).setOnClickListener {
+            val result = numerator.plusNum()
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            myOperatorText.setText("+")
+
+        }
+
+        findViewById<Button>(R.id.key_minus).setOnClickListener {
+            val result = numerator.minusNum()
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            myOperatorText.setText("-")
+
+        }
+
+        findViewById<Button>(R.id.key_multiply).setOnClickListener {
+            val result = numerator.multiplyNum()
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            myOperatorText.setText("x")
+
+        }
+
+        findViewById<Button>(R.id.key_divide).setOnClickListener {
+            val result =numerator.divideNum()
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            myOperatorText.setText("/")
+
+        }
+
+        findViewById<Button>(R.id.key_delete).setOnClickListener {
+            val result = numerator.deleteNum()
+            myText.setText("${result.accumulator}")
+
+        }
+
+        findViewById<Button>(R.id.key_reset).setOnClickListener {
+            val result =  numerator.restartAccumulator()
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            myOperatorText.setText("")
+
+        }
+        findViewById<Button>(R.id.key_power).setOnClickListener {
+            val result = numerator.powerNum()
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            myOperatorText.setText("^")
+        }
+        findViewById<Button>(R.id.key_percent).setOnClickListener {
+            val result = numerator.percentNum()
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            myOperatorText.setText("%")
+
+        }
+
+        findViewById<Button>(R.id.key_dot).setOnClickListener {
+            val result = numerator.placeDot()
+            myText.setText("${result.accumulator}")
+        }
         /*setSupportActionBar(binding.toolbar)
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
@@ -129,11 +292,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
+    /*override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
-    }
+    }*/
 
 
 }

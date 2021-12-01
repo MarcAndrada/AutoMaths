@@ -53,75 +53,141 @@ class FirstFragment : Fragment() {
 
         //Aqui llamaremos a la funcion correspondiente de cada boton definido en la clase de Operations.kt
         view.findViewById<Button>(R.id.key_0).setOnClickListener {
-                numerator.numberPressed(BigDecimal(0),myText,myResultText,myOperatorText)
+            val result = numerator.numberPressed(BigDecimal(0))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
+
         }
         view.findViewById<Button>(R.id.key_1).setOnClickListener {
-            numerator.numberPressed(BigDecimal(1),myText,myResultText,myOperatorText)
+            val result = numerator.numberPressed(BigDecimal(1))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
         }
         view.findViewById<Button>(R.id.key_2).setOnClickListener {
-            numerator.numberPressed(BigDecimal(2),myText,myResultText,myOperatorText)
+            val result = numerator.numberPressed(BigDecimal(2))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
         }
         view.findViewById<Button>(R.id.key_3).setOnClickListener {
-            numerator.numberPressed(BigDecimal(3),myText,myResultText,myOperatorText)
+            val result = numerator.numberPressed(BigDecimal(3))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
         }
         view.findViewById<Button>(R.id.key_4).setOnClickListener {
-            numerator.numberPressed(BigDecimal(4),myText,myResultText,myOperatorText)
+            val result = numerator.numberPressed(BigDecimal(4))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
         }
         view.findViewById<Button>(R.id.key_5).setOnClickListener {
-            numerator.numberPressed(BigDecimal(5),myText,myResultText,myOperatorText)
+            val result = numerator.numberPressed(BigDecimal(5))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
         }
         view.findViewById<Button>(R.id.key_6).setOnClickListener {
-            numerator.numberPressed(BigDecimal(6),myText,myResultText,myOperatorText)
+            val result = numerator.numberPressed(BigDecimal(6))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
         }
         view.findViewById<Button>(R.id.key_7).setOnClickListener {
-            numerator.numberPressed(BigDecimal(7),myText,myResultText,myOperatorText)
+            val result = numerator.numberPressed(BigDecimal(7))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
         }
         view.findViewById<Button>(R.id.key_8).setOnClickListener {
-            numerator.numberPressed(BigDecimal(8),myText,myResultText,myOperatorText)
+            val result = numerator.numberPressed(BigDecimal(8))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
 
         }
         view.findViewById<Button>(R.id.key_9).setOnClickListener {
-            numerator.numberPressed(BigDecimal(9),myText,myResultText,myOperatorText)
+            val result = numerator.numberPressed(BigDecimal(9))
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
         }
 
         view.findViewById<Button>(R.id.key_equal).setOnClickListener {
-            numerator.equalFun(myText,myResultText,myOperatorText)
+            val result = numerator.equalFun()
+            myText.setText("${result.accumulator}")
+            if (result.error == ""){
+                myResultText.setText("${result.result}")
+                myOperatorText.setText("=")
+            }else{
+                myResultText.setText(result.error)
+            }
         }
 
         view.findViewById<Button>(R.id.key_plus).setOnClickListener {
-            numerator.plusNum(myText,myResultText,myOperatorText)
+            val result = numerator.plusNum()
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            myOperatorText.setText("+")
+
         }
 
         view.findViewById<Button>(R.id.key_minus).setOnClickListener {
-            numerator.minusNum(myText,myResultText,myOperatorText)
+            val result = numerator.minusNum()
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            myOperatorText.setText("-")
+
         }
 
         view.findViewById<Button>(R.id.key_multiply).setOnClickListener {
-            numerator.multiplyNum(myText,myResultText,myOperatorText)
+            val result = numerator.multiplyNum()
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            myOperatorText.setText("x")
+
         }
 
         view.findViewById<Button>(R.id.key_divide).setOnClickListener {
-            numerator.divideNum(myText,myResultText,myOperatorText)
+            val result =numerator.divideNum()
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            myOperatorText.setText("/")
+
         }
 
         view.findViewById<Button>(R.id.key_delete).setOnClickListener {
-            numerator.deleteNum(myText)
+            val result = numerator.deleteNum()
+            myText.setText("${result.accumulator}")
+
         }
 
         view.findViewById<Button>(R.id.key_reset).setOnClickListener {
-            numerator.restartAccumulator(myText,myResultText,myOperatorText)
-
+            val result =  numerator.restartAccumulator()
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            myOperatorText.setText("")
 
         }
         view.findViewById<Button>(R.id.key_power).setOnClickListener {
-            numerator.powerNum(myText,myResultText,myOperatorText)
+            val result = numerator.powerNum()
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            myOperatorText.setText("^")
         }
         view.findViewById<Button>(R.id.key_percent).setOnClickListener {
-            numerator.percentNum(myText,myResultText,myOperatorText)
+            val result = numerator.percentNum()
+            myText.setText("${result.accumulator}")
+            myResultText.setText("${result.result}")
+            myOperatorText.setText("%")
+
         }
 
         view.findViewById<Button>(R.id.key_dot).setOnClickListener {
-            numerator.placeDot(myText)
+            val result = numerator.placeDot()
+            myText.setText("${result.accumulator}")
         }
 
 
@@ -147,4 +213,6 @@ class FirstFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }

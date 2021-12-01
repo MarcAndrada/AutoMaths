@@ -4,6 +4,7 @@ import android.widget.TextView
 import java.math.BigDecimal
 
 open class Operations {
+    data class Result(val accumulator:BigDecimal, val result: BigDecimal, var error:String = "")
     enum class Operators{PLUS,MINUS,MULTIPLY,DIVIDE,EQUAL,POWER,PERCENT,NONE}
 
     var accumulator:BigDecimal = BigDecimal(0)
@@ -13,20 +14,20 @@ open class Operations {
     var decimalCounter = 0
 
 
-    fun restartAccumulator(writeText: TextView, resultText:TextView,operatorText:TextView){
+    fun restartAccumulator():Result{
         //Lo reiniciamos el acumulador y el resultado a 0
         accumulator = BigDecimal(0)
         result = BigDecimal(0)
         //Lo dibujamos en los TextView
-        writeText.setText("$accumulator")
-        resultText.setText("$result")
-        operatorText.setText("")
+
         decimalCounter = 0
         isDecimal = false
+        //Lo enviamos el resultado para que se aplique en el text View
+        return Result(accumulator, result)
 
     }
 
-    fun numberPressed(value:BigDecimal, writeText: TextView, resultText:TextView, operatorText:TextView){
+    fun numberPressed(value:BigDecimal):Result{
         //Definimos de que forma se insertaran los numeros segun si son decimales o no
         if(!isDecimal) {
             accumulator = accumulator * BigDecimal(10) + value
@@ -40,13 +41,8 @@ open class Operations {
             accumulator += divisibleValue
         }
 
-        //escribimos el resultado en el text view
-        writeText.setText("$accumulator")
-        resultText.setText("$result")
-
-
-        //si no estamos en medio de una operacion borraremos el simbolo de la operacion
-        if (checkCanDeleteOp()) operatorText.setText("")
+        //Lo enviamos el resultado para que se aplique en el text View
+        return Result(accumulator, result)
 
     }
 
@@ -59,7 +55,7 @@ open class Operations {
 
     }
 
-    fun deleteNum(writeText: TextView){
+    fun deleteNum():Result{
         var accumulatorS = "$accumulator"
         //Si es decimal restamos el contador de decimales, si no hay ningun decimal dejara de ser un numero decimal
         if(isDecimal){
@@ -79,16 +75,18 @@ open class Operations {
             accumulator = BigDecimal(0)
         }
 
-        //Lo escribimos en el text View
-        writeText.setText("$accumulator")
+        //Lo enviamos el resultado para que se aplique en el text View
+        return Result(accumulator, result)
     }
 
-    fun doOperation(writeText: TextView,resultText:TextView){
-
+    fun doOperation():Result{
+        var finalResult:BigDecimal
+        var finalError:String = ""
         //Aqui revisamos que si la ultima operacion ha sido un igual y queremos volver a empezar sin haberle dado a reiniciar que se borre el resultado
         //o por el contrario que si queremos seguir operando con el resultado anterior
         if (currentOperations == Operators.EQUAL && accumulator != BigDecimal(0)){
             result = BigDecimal(0)
+            finalResult = result
             currentOperations = Operators.NONE
         }
         if (!isDecimal) {
@@ -109,77 +107,74 @@ open class Operations {
                 Operators.NONE -> accumulator
             }
 
+            finalResult = result
 
-
-            resultText.setText("$result")
         } catch (e: ArithmeticException) {
-            resultText.setText("${e.message}")
+            finalError = ("${e.message}")
             result = BigDecimal(0)
+            finalResult = result
         }
 
         accumulator = BigDecimal(0)
-
-        writeText.setText("$accumulator")
         decimalCounter = 0
         isDecimal = false
+
+
+        return Result(accumulator,finalResult,finalError)
+
     }
 
     //Estas funciones llaman a la funcion para que haga la operacion y muestran en el view port el signo de cada operacion
-    fun equalFun(writeText: TextView,resultText:TextView,operatorText:TextView){
-        doOperation(writeText,resultText)
+    fun equalFun():Result{
+        val result = doOperation()
         currentOperations = Operators.EQUAL
-        operatorText.setText("=")
+        return result
 
     }
-    fun plusNum(writeText: TextView,resultText:TextView,operatorText:TextView){
-        doOperation(writeText,resultText)
+    fun plusNum():Result{
+        val result = doOperation()
         currentOperations = Operators.PLUS
-        operatorText.setText("+")
-
+        return result
 
     }
-    fun minusNum(writeText: TextView,resultText:TextView,operatorText:TextView){
-        doOperation(writeText,resultText)
+    fun minusNum():Result{
+        val result = doOperation()
         currentOperations = Operators.MINUS
-        operatorText.setText("-")
-
+        return result
     }
-    fun multiplyNum(writeText: TextView,resultText:TextView,operatorText:TextView){
-        doOperation(writeText,resultText)
+    fun multiplyNum():Result{
+        val result = doOperation()
         currentOperations = Operators.MULTIPLY
-        operatorText.setText("x")
-
+        return result
     }
-    fun divideNum(writeText: TextView,resultText:TextView,operatorText:TextView){
-        doOperation(writeText,resultText)
+    fun divideNum():Result{
+        val result = doOperation()
         currentOperations = Operators.DIVIDE
-        operatorText.setText("/")
-
+        return result
     }
-    fun powerNum(writeText: TextView,resultText:TextView,operatorText:TextView){
-        doOperation(writeText,resultText)
+    fun powerNum():Result{
+        val result = doOperation()
         currentOperations = Operators.POWER
-        operatorText.setText("^")
+        return result
 
     }
-    fun percentNum(writeText: TextView,resultText:TextView,operatorText:TextView){
-        doOperation(writeText,resultText)
+    fun percentNum():Result{
+        val result = doOperation()
         currentOperations = Operators.PERCENT
-        operatorText.setText("%")
-
+        return result
     }
 
-    fun placeDot(writeText: TextView){
+    fun placeDot():Result{
         //aqui revisamos si es decimal y en el caso de que no lo sea agregamos un .0 al valor que tenemos y ponemos a true el bool que hace que se calcule con decimales
         if (!isDecimal){
             var accumulatorS = "$accumulator"
             accumulatorS = accumulatorS + ".0"
             accumulator = accumulatorS.toBigDecimal()
-            writeText.setText("$accumulator")
             isDecimal = true
 
         }
 
+        return Result(accumulator, result)
     }
 
 
