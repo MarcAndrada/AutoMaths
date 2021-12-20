@@ -53,90 +53,94 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.TakePicture()) { isTaken: Boolean ->
             if (isTaken) {
                 val cameraReader = CameraReader()
+                var errorFound:String = ""
+                var result = numerator.numberPressed(BigDecimal(0))
+                var finalResult:String = ""
 
                 fileUri?.let {
-                    cameraData = cameraReader.getImageData(applicationContext,it)
-                }
-                myText.setText(cameraData)
-                /*if (cameraData != ""){
-                    var result = numerator.numberPressed(BigDecimal(0))
-                    var errorFound:String = ""
-                    var finalResult:String = ""
-                    cameraData.forEach {
+                    cameraReader.getImageData(applicationContext,it) {
+                        cameraData = it
 
-                        when(it){
-                           '0' -> let { result = numerator.numberPressed(BigDecimal(0))
-                                finalResult += it
-                           }
-                           '1' -> let{ result = numerator.numberPressed(BigDecimal(1))
-                                finalResult += it
-                           }
-                           '2' -> let{ result = numerator.numberPressed(BigDecimal(2))
-                                finalResult += it
-                           }
-                           '3' -> let { result = numerator.numberPressed(BigDecimal(3))
-                               finalResult += it
-                           }
-                           '4' -> let{ result = numerator.numberPressed(BigDecimal(4))
-                               finalResult += it
-                           }
-                           '5' -> let { result = numerator.numberPressed(BigDecimal(5))
-                               finalResult += it
-                           }
-                           '6' -> let {  result = numerator.numberPressed(BigDecimal(6))
-                               finalResult += it
-                           }
-                           '7' -> let { result = numerator.numberPressed(BigDecimal(7))
-                               finalResult += it
-                           }
-                           '8' -> let { result = numerator.numberPressed(BigDecimal(8))
-                               finalResult += it
-                           }
-                           '9' -> let {  result = numerator.numberPressed(BigDecimal(9))
-                               finalResult += it
-                           }
-                           '=' -> let { result = numerator.equalFun()
-                               finalResult += it
-                           }
-                           '+' -> let { result = numerator.plusNum()
-                               finalResult += it
-                           }
-                           '-' -> let { result = numerator.minusNum()
-                               finalResult += it
-                           }
-                           'x' -> let { result = numerator.multiplyNum()
-                               finalResult += it
-                           }
-                           'X' -> let { result = numerator.multiplyNum()
-                               finalResult += it
-                           }
-                           '/' -> let { result = numerator.divideNum()
-                               finalResult += it
-                           }
-                           '^' -> let { result = numerator.powerNum()
-                               finalResult += it
-                           }
-                           '%' -> let { result = numerator.percentNum()
-                               finalResult += it
-                           }
-                           '.' -> let { result = numerator.placeDot()
-                               finalResult += it
-                           }
+                        if (cameraData != ""){
+
+                            cameraData.forEach {
+
+                                when(it){
+                                    '0' -> let { result = numerator.numberPressed(BigDecimal(0))
+                                        finalResult += it
+                                    }
+                                    '1' -> let{ result = numerator.numberPressed(BigDecimal(1))
+                                        finalResult += it
+                                    }
+                                    '2' -> let{ result = numerator.numberPressed(BigDecimal(2))
+                                        finalResult += it
+                                    }
+                                    '3' -> let { result = numerator.numberPressed(BigDecimal(3))
+                                        finalResult += it
+                                    }
+                                    '4' -> let{ result = numerator.numberPressed(BigDecimal(4))
+                                        finalResult += it
+                                    }
+                                    '5' -> let { result = numerator.numberPressed(BigDecimal(5))
+                                        finalResult += it
+                                    }
+                                    '6' -> let {  result = numerator.numberPressed(BigDecimal(6))
+                                        finalResult += it
+                                    }
+                                    '7' -> let { result = numerator.numberPressed(BigDecimal(7))
+                                        finalResult += it
+                                    }
+                                    '8' -> let { result = numerator.numberPressed(BigDecimal(8))
+                                        finalResult += it
+                                    }
+                                    '9' -> let {  result = numerator.numberPressed(BigDecimal(9))
+                                        finalResult += it
+                                    }
+                                    '=' -> let { result = numerator.equalFun()
+                                        finalResult += it
+                                        errorFound = result.error
+                                    }
+                                    '+' -> let { result = numerator.plusNum()
+                                        finalResult += it
+                                    }
+                                    '-' -> let { result = numerator.minusNum()
+                                        finalResult += it
+                                    }
+                                    'x' -> let { result = numerator.multiplyNum()
+                                        finalResult += it
+                                    }
+                                    'X' -> let { result = numerator.multiplyNum()
+                                        finalResult += it
+                                    }
+                                    '/' -> let { result = numerator.divideNum()
+                                        finalResult += it
+                                    }
+                                    '^' -> let { result = numerator.powerNum()
+                                        finalResult += it
+                                    }
+                                    '%' -> let { result = numerator.percentNum()
+                                        finalResult += it
+                                    }
+                                    '.' -> let { result = numerator.placeDot()
+                                        finalResult += it
+                                    }
+
+                                }
+
+                            }
+
+                            myText.setText(cameraData)
+                            myResultText.setText("${result.result}")
+                            myOperatorText.setText("=")
+
+                            if (errorFound != "") myResultText.setText(errorFound)
 
                         }
 
                     }
-
-                    myText.setText(finalResult)
-                    myResultText.setText("${result.result}")
-                    myOperatorText.setText("=")
-
-                    if (errorFound != "") myResultText.setText(errorFound)
-
-                }*/
-
-                // TODO
+                }
             }
+
         }
 
 
