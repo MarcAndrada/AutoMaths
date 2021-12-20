@@ -28,6 +28,10 @@ import java.math.BigDecimal
 class MainActivity : AppCompatActivity() {
     var fileUri: Uri? = null
     var cameraData = ""
+    lateinit var myText:TextView
+    lateinit var myOperatorText:TextView
+    lateinit var myResultText:TextView
+    val numerator = Operations()
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private val requestPermissionLauncher =
@@ -53,16 +57,83 @@ class MainActivity : AppCompatActivity() {
                 fileUri?.let {
                     cameraData = cameraReader.getImageData(applicationContext,it)
                 }
-
-                if (cameraData != ""){
+                myText.setText(cameraData)
+                /*if (cameraData != ""){
+                    var result = numerator.numberPressed(BigDecimal(0))
+                    var errorFound:String = ""
+                    var finalResult:String = ""
                     cameraData.forEach {
+
                         when(it){
-                           '0' ->
+                           '0' -> let { result = numerator.numberPressed(BigDecimal(0))
+                                finalResult += it
+                           }
+                           '1' -> let{ result = numerator.numberPressed(BigDecimal(1))
+                                finalResult += it
+                           }
+                           '2' -> let{ result = numerator.numberPressed(BigDecimal(2))
+                                finalResult += it
+                           }
+                           '3' -> let { result = numerator.numberPressed(BigDecimal(3))
+                               finalResult += it
+                           }
+                           '4' -> let{ result = numerator.numberPressed(BigDecimal(4))
+                               finalResult += it
+                           }
+                           '5' -> let { result = numerator.numberPressed(BigDecimal(5))
+                               finalResult += it
+                           }
+                           '6' -> let {  result = numerator.numberPressed(BigDecimal(6))
+                               finalResult += it
+                           }
+                           '7' -> let { result = numerator.numberPressed(BigDecimal(7))
+                               finalResult += it
+                           }
+                           '8' -> let { result = numerator.numberPressed(BigDecimal(8))
+                               finalResult += it
+                           }
+                           '9' -> let {  result = numerator.numberPressed(BigDecimal(9))
+                               finalResult += it
+                           }
+                           '=' -> let { result = numerator.equalFun()
+                               finalResult += it
+                           }
+                           '+' -> let { result = numerator.plusNum()
+                               finalResult += it
+                           }
+                           '-' -> let { result = numerator.minusNum()
+                               finalResult += it
+                           }
+                           'x' -> let { result = numerator.multiplyNum()
+                               finalResult += it
+                           }
+                           'X' -> let { result = numerator.multiplyNum()
+                               finalResult += it
+                           }
+                           '/' -> let { result = numerator.divideNum()
+                               finalResult += it
+                           }
+                           '^' -> let { result = numerator.powerNum()
+                               finalResult += it
+                           }
+                           '%' -> let { result = numerator.percentNum()
+                               finalResult += it
+                           }
+                           '.' -> let { result = numerator.placeDot()
+                               finalResult += it
+                           }
+
                         }
 
                     }
 
-                }
+                    myText.setText(finalResult)
+                    myResultText.setText("${result.result}")
+                    myOperatorText.setText("=")
+
+                    if (errorFound != "") myResultText.setText(errorFound)
+
+                }*/
 
                 // TODO
             }
@@ -73,12 +144,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val myText = findViewById<TextView>(R.id.editTextNumber)
-        val myOperatorText = findViewById<TextView>(R.id.operatorText)
-        val myResultText = findViewById<TextView>(R.id.result_number)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        myText = findViewById(R.id.editTextNumber)
+        myOperatorText = findViewById(R.id.operatorText)
+        myResultText = findViewById(R.id.result_number)
+
         //binding.camIcon.setOnClickListener {
         //    val intent = Intent(this, CameraActivity::class.java)
         //    startActivity(intent)
@@ -102,9 +174,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
-
-        val numerator = Operations()
         myText.setText("0")
         myResultText.setText("0")
 
@@ -208,7 +277,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.key_divide).setOnClickListener {
-            val result =numerator.divideNum()
+            val result = numerator.divideNum()
             myText.setText("${result.accumulator}")
             myResultText.setText("${result.result}")
             myOperatorText.setText("/")

@@ -12,7 +12,7 @@ class CameraReader() : Operations() {
 
     fun getImageData(context: Context, uri: Uri):String {
         val image: InputImage
-        var imageResut = ""
+        var imageResut = "Fallo"
         try {
             image = InputImage.fromFilePath(context, uri)
         } catch (e: IOException) {
@@ -32,18 +32,19 @@ class CameraReader() : Operations() {
                     val lineText = line.text
                     val lineCornerPoints = line.cornerPoints
                     val lineFrame = line.boundingBox
-                    line.text.forEach {
+                    imageResut = lineText
+                    /*line.text.forEach {
                         if (it != ' '){
                             imageResut += it
                         }
-                    }
+                    }*/
 
 
-//                    for (element in line.elements) {
-//                        val elementText = element.text
-//                        val elementCornerPoints = element.cornerPoints
-//                        val elementFrame = element.boundingBox
-//                    }
+                   for (element in line.elements) {
+                       val elementText = element.text
+                       val elementCornerPoints = element.cornerPoints
+                       val elementFrame = element.boundingBox
+                   }
                 }
 
 
@@ -51,11 +52,9 @@ class CameraReader() : Operations() {
                 //onSuccess(result)
             }
         }
-            .addOnFailureListener { e ->
-                // Task failed with an exception
-                // ...
-                TODO()
-            }
+        .addOnFailureListener {
+            imageResut = it.toString()
+        }
 
 
         return imageResut
