@@ -4,15 +4,16 @@ import android.widget.TextView
 import java.math.BigDecimal
 
 open class Operations {
-    data class Result(val accumulator:BigDecimal, val result: BigDecimal, var error:String = "")
+    data class Result(val calculatedOperation:BigDecimal, val result: BigDecimal, var error:String = "")
     enum class Operators{PLUS,MINUS,MULTIPLY,DIVIDE,EQUAL,POWER,PERCENT,NONE}
 
+    var fullOperation = ""
     var accumulator:BigDecimal = BigDecimal(0)
     var result:BigDecimal = BigDecimal(0)
     var currentOperations = Operators.NONE
     var isDecimal = false
     var decimalCounter = 0
-
+    var entireOperation = ""
 
     fun restartAccumulator():Result{
         //Lo reiniciamos el acumulador y el resultado a 0
@@ -41,6 +42,7 @@ open class Operations {
             accumulator += divisibleValue
         }
 
+        fullOperation += value.toString()
         //Lo enviamos el resultado para que se aplique en el text View
         return Result(accumulator, result)
 
@@ -71,8 +73,11 @@ open class Operations {
 
         if(accumulatorS != "") {//En el caso de que quitemos el ultimo valor y el string no este vacio lo igualaremos el acumulador al string que hemos creado
             accumulator = accumulatorS.toBigDecimal()
+            fullOperation = fullOperation.substring(0, fullOperation.length - 1)
+
         }else{ //Y si le pasamos un string vacio accumulador sera 0
             accumulator = BigDecimal(0)
+            fullOperation = ""
         }
 
         //Lo enviamos el resultado para que se aplique en el text View
@@ -96,11 +101,23 @@ open class Operations {
         }
         //Aqui definimos lo que hara cada operacion
         try {
-            result = when (currentOperations) {
-                Operators.PLUS -> result + accumulator
-                Operators.MINUS -> result - accumulator
-                Operators.MULTIPLY -> result * accumulator
-                Operators.DIVIDE -> result / accumulator
+            when (currentOperations) {
+                Operators.PLUS -> let{
+                    result = result + accumulator
+                    fullOperation += "+"
+                }
+                Operators.MINUS -> let{
+                    result - accumulator
+                    fullOperation += "-"
+                }
+                Operators.MULTIPLY -> let{
+                    result * accumulator
+                    fullOperation += "x"
+                }
+                Operators.DIVIDE ->let{
+                    result / accumulator
+                    fullOperation += "/"
+                }
                 Operators.EQUAL -> result
                 Operators.POWER -> BigDecimal(Math.pow(result.toDouble(), accumulator.toDouble()))
                 Operators.PERCENT -> result * accumulator / BigDecimal(100)

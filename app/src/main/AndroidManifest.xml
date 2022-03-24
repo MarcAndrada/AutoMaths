@@ -11,10 +11,14 @@
         android:label="AutoMaths"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AplicacionTest">
+        android:theme="@style/Theme.AplicacionTest"
+
+        >
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:label="AutoMaths"
             android:theme="@style/Theme.AplicacionTest.NoActionBar">
             <intent-filter>
