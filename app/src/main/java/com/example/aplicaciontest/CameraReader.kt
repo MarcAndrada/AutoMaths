@@ -25,8 +25,6 @@ class CameraReader : Operations() {
                 for (block in proceso.result.textBlocks) {
 
                     for (line in block.lines) {
-                        val lineText = line.text
-                        //imageResut = lineText
                         line.text.forEach {
                             if (it != ' ') {
                                 imageResut += it

@@ -14,7 +14,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.navigation.ui.AppBarConfiguration
 import com.example.aplicaciontest.databinding.ActivityMainBinding
 import java.io.File
 import java.math.BigDecimal
@@ -27,8 +26,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var myOperatorText:TextView
     lateinit var myResultText:TextView
     val numerator = Operations()
-    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    //Esta es una variable probisional para que todo funcione
+    var fullOperationCameraData = ""
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission())
         { isGranted: Boolean ->
@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
                 // settings in an effort to convince the user to change their
                 // decision.
 
+                //TODO
             }
         }
 
@@ -48,18 +49,17 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.TakePicture()) { isTaken: Boolean ->
             if (isTaken) {
                 val cameraReader = CameraReader()
-                val errorFound:String = ""
-                var result = numerator.equalFun()
-                var filteringResult = ""
-                var orderedOperation = ""
+                val errorFound = ""
+                var result: Operations.Result
+
 
                 fileUri?.let { it ->
                     cameraReader.getImageData(applicationContext,it) { photoData ->
                         cameraData = photoData
                         //Aqui hay que llamar a la funcion proces data cuando este acabada
+                        result = processData(cameraData)
 
-
-                        myText.setText(filteringResult)
+                        myText.setText(fullOperationCameraData)
                         myResultText.setText("${result.result}")
                         myOperatorText.setText("=")
 
@@ -125,7 +125,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.key_equal).setOnClickListener {
             val result = numerator.equalFun()
-            myText.setText("${result.accumulator}")
+            myText.setText("${result.calculatedOperation}")
             if (result.error == ""){
                 myResultText.setText("${result.result}")
                 myOperatorText.setText("=")
@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.key_plus).setOnClickListener {
             val result = numerator.plusNum()
-            myText.setText("${result.accumulator}")
+            myText.setText("${result.calculatedOperation}")
             myResultText.setText("${result.result}")
             myOperatorText.setText("+")
 
@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.key_minus).setOnClickListener {
             val result = numerator.minusNum()
-            myText.setText("${result.accumulator}")
+            myText.setText("${result.calculatedOperation}")
             myResultText.setText("${result.result}")
             myOperatorText.setText("-")
 
@@ -152,7 +152,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.key_multiply).setOnClickListener {
             val result = numerator.multiplyNum()
-            myText.setText("${result.accumulator}")
+            myText.setText("${result.calculatedOperation}")
             myResultText.setText("${result.result}")
             myOperatorText.setText("x")
 
@@ -160,7 +160,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.key_divide).setOnClickListener {
             val result = numerator.divideNum()
-            myText.setText("${result.accumulator}")
+            myText.setText("${result.calculatedOperation}")
             myResultText.setText("${result.result}")
             myOperatorText.setText("/")
 
@@ -168,26 +168,26 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.key_delete).setOnClickListener {
             val result = numerator.deleteNum()
-            myText.setText("${result.accumulator}")
+            myText.setText("${result.calculatedOperation}")
 
         }
 
         findViewById<Button>(R.id.key_reset).setOnClickListener {
             val result =  numerator.restartAccumulator()
-            myText.setText("${result.accumulator}")
+            myText.setText("${result.calculatedOperation}")
             myResultText.setText("${result.result}")
             myOperatorText.setText("")
 
         }
         findViewById<Button>(R.id.key_power).setOnClickListener {
             val result = numerator.powerNum()
-            myText.setText("${result.accumulator}")
+            myText.setText("${result.calculatedOperation}")
             myResultText.setText("${result.result}")
             myOperatorText.setText("^")
         }
         findViewById<Button>(R.id.key_percent).setOnClickListener {
             val result = numerator.percentNum()
-            myText.setText("${result.accumulator}")
+            myText.setText("${result.calculatedOperation}")
             myResultText.setText("${result.result}")
             myOperatorText.setText("%")
 
@@ -195,7 +195,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.key_dot).setOnClickListener {
             val result = numerator.placeDot()
-            myText.setText("${result.accumulator}")
+            myText.setText("${result.calculatedOperation}")
         }
         /*setSupportActionBar(binding.toolbar)
 
@@ -212,7 +212,7 @@ class MainActivity : AppCompatActivity() {
     fun getClickListerFor(number: Int): View.OnClickListener {
         return View.OnClickListener {
             val result = numerator.numberPressed(BigDecimal(number))
-            myText.setText("${result.accumulator}")
+            myText.setText("${result.calculatedOperation}")
             myResultText.setText("${result.result}")
             if (numerator.checkCanDeleteOp()) myOperatorText.setText("")
         }
@@ -272,7 +272,9 @@ class MainActivity : AppCompatActivity() {
 
             val blockList : ArrayList<String>
 
-            filteringResult = filterCameraData(dataToProces )
+            filteringResult = filterCameraData(dataToProces)
+            //Esto es para que funcione todo para la entrega
+            fullOperationCameraData = filteringResult
 
             blockList = divideInBlocks(filteringResult)
 
@@ -327,7 +329,7 @@ class MainActivity : AppCompatActivity() {
 
 
         }
-
+        return result
     }
 
 

@@ -1,10 +1,10 @@
 package com.example.aplicaciontest
 
-import android.widget.TextView
 import java.math.BigDecimal
+import kotlin.math.pow
 
 open class Operations {
-    data class Result(val calculatedOperation:BigDecimal, val result: BigDecimal, var error:String = "")
+    data class Result(val calculatedOperation:BigDecimal, val result: BigDecimal, val error:String = "", val allOperation:BigDecimal = BigDecimal(0))
     enum class Operators{PLUS,MINUS,MULTIPLY,DIVIDE,EQUAL,POWER,PERCENT,NONE}
 
     var fullOperation = ""
@@ -16,6 +16,7 @@ open class Operations {
     var entireOperation = ""
 
     fun restartAccumulator():Result{
+        currentOperations = Operators.NONE
         //Lo reiniciamos el acumulador y el resultado a 0
         accumulator = BigDecimal(0)
         result = BigDecimal(0)
@@ -86,42 +87,42 @@ open class Operations {
 
     fun doOperation():Result{
         var finalResult:BigDecimal
-        var finalError:String = ""
+        var finalError = ""
         //Aqui revisamos que si la ultima operacion ha sido un igual y queremos volver a empezar sin haberle dado a reiniciar que se borre el resultado
         //o por el contrario que si queremos seguir operando con el resultado anterior
         if (currentOperations == Operators.EQUAL && accumulator != BigDecimal(0)){
             result = BigDecimal(0)
-            finalResult = result
+            accumulator = result
             currentOperations = Operators.NONE
         }
         if (!isDecimal) {
             var accumulatorS = "$accumulator"
-            accumulatorS = accumulatorS + ".0"
+            accumulatorS += ".0"
             accumulator = accumulatorS.toBigDecimal()
         }
         //Aqui definimos lo que hara cada operacion
         try {
             when (currentOperations) {
                 Operators.PLUS -> let{
-                    result = result + accumulator
+                    result += accumulator
                     fullOperation += "+"
                 }
                 Operators.MINUS -> let{
-                    result - accumulator
+                    result -= accumulator
                     fullOperation += "-"
                 }
                 Operators.MULTIPLY -> let{
-                    result * accumulator
+                    result *= accumulator
                     fullOperation += "x"
                 }
                 Operators.DIVIDE ->let{
-                    result / accumulator
+                    result /= accumulator
                     fullOperation += "/"
                 }
                 Operators.EQUAL -> result
-                Operators.POWER -> BigDecimal(Math.pow(result.toDouble(), accumulator.toDouble()))
+                Operators.POWER -> BigDecimal(result.toDouble().pow(accumulator.toDouble()))
                 Operators.PERCENT -> result * accumulator / BigDecimal(100)
-                Operators.NONE -> accumulator
+                Operators.NONE -> result = accumulator
             }
 
             finalResult = result
@@ -185,7 +186,7 @@ open class Operations {
         //aqui revisamos si es decimal y en el caso de que no lo sea agregamos un .0 al valor que tenemos y ponemos a true el bool que hace que se calcule con decimales
         if (!isDecimal){
             var accumulatorS = "$accumulator"
-            accumulatorS = accumulatorS + ".0"
+            accumulatorS += ".0"
             accumulator = accumulatorS.toBigDecimal()
             isDecimal = true
 
