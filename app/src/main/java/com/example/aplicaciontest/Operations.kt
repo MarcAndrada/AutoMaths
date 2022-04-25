@@ -32,14 +32,19 @@ open class Operations {
         decimalCounter = 0
         isDecimal = false
         if (_restartEverything){
+            //Hacer que se guarde la operacion y el resultado
+
             fullOperation = ""
+
         }
+
+
         //Lo enviamos el resultado para que se aplique en el text View
         return Result(accumulator, result)
 
     }
 
-    private fun numberPressed(value:BigDecimal):Result{
+    private fun numberSelected(value:BigDecimal):Result{
         //Definimos de que forma se insertaran los numeros segun si son decimales o no
         if(!isDecimal) {
             accumulator = accumulator * BigDecimal(10) + value
@@ -71,13 +76,13 @@ open class Operations {
 
         //Dependiendo del valor decidimos si quitar o no quitar el ultimo valor para evitar que pete
 
-        if(fullOperation != "") {
+        fullOperation = if(fullOperation != "") {
             //En el caso de que quitemos el ultimo valor y el string no este vacio lo igualaremos el acumulador al string que hemos creado
-            fullOperation = fullOperation.substring(0, fullOperation.length - 1)
+            fullOperation.substring(0, fullOperation.length - 1)
 
         }else{
             //Y si le pasamos un string vacio accumulador sera 0
-            fullOperation = "0"
+            "0"
         }
 
 
@@ -103,21 +108,13 @@ open class Operations {
         //Aqui definimos lo que hara cada operacion
         try {
             when (currentOperations) {
-                Operators.PLUS -> let{
-                    result += accumulator
-                }
-                Operators.MINUS -> let{
-                    result -= accumulator
-                }
-                Operators.MULTIPLY -> let{
-                    result *= accumulator
-                }
-                Operators.DIVIDE ->let{
-                    result /= accumulator
-                }
+                Operators.PLUS -> result += accumulator
+                Operators.MINUS -> result -= accumulator
+                Operators.MULTIPLY -> result *= accumulator
+                Operators.DIVIDE ->result /= accumulator
                 Operators.EQUAL -> result
-                Operators.POWER -> BigDecimal(result.toDouble().pow(accumulator.toDouble()))
-                Operators.PERCENT -> result * accumulator / BigDecimal(100)
+                Operators.POWER -> result = BigDecimal(result.toDouble().pow(accumulator.toDouble()))
+                Operators.PERCENT -> result = result * accumulator / BigDecimal(100)
                 Operators.NONE -> result = accumulator
             }
 
@@ -139,46 +136,47 @@ open class Operations {
     }
 
     //Estas funciones llaman a la funcion para que haga la operacion y muestran en el view port el signo de cada operacion
-    fun equalFun():Result{
-        val result = doOperation()
-        currentOperations = Operators.EQUAL
-        return result
 
-    }
-    fun plusNum():Result{
+    //fun equalFun():Result{
+    //    val result = doOperation()
+    //    currentOperations = Operators.EQUAL
+    //    return result
+    //
+    //}
+    private fun plusNum():Result{
         val result = doOperation()
         currentOperations = Operators.PLUS
         return result
 
     }
-    fun minusNum():Result{
+    private fun minusNum():Result{
         val result = doOperation()
         currentOperations = Operators.MINUS
         return result
     }
-    fun multiplyNum():Result{
+    private fun multiplyNum():Result{
         val result = doOperation()
         currentOperations = Operators.MULTIPLY
         return result
     }
-    fun divideNum():Result{
+    private fun divideNum():Result{
         val result = doOperation()
         currentOperations = Operators.DIVIDE
         return result
     }
-    fun powerNum():Result{
+    private fun powerNum():Result{
         val result = doOperation()
         currentOperations = Operators.POWER
         return result
 
     }
-    fun percentNum():Result{
+    private fun percentNum():Result{
         val result = doOperation()
         currentOperations = Operators.PERCENT
         return result
     }
 
-    fun placeDot():Result{
+    private fun placeDot():Result{
         //aqui revisamos si es decimal y en el caso de que no lo sea agregamos un .0 al valor que tenemos y ponemos a true el bool que hace que se calcule con decimales
         if (!isDecimal){
             var accumulatorS = "$accumulator"
@@ -204,7 +202,7 @@ open class Operations {
         result = Result(BigDecimal(0),BigDecimal(0), "" , "")
         if (dataToProcess != "") {
 
-            filteringResult = filterCameraData(dataToProcess)
+            filteringResult = filterData(dataToProcess)
 
             val blockList : ArrayList<String> = divideInBlocks(filteringResult)
 
@@ -216,25 +214,25 @@ open class Operations {
                 // Aqui para acabar dividiremos por char el string ordenado y llamaremos a las funciones de la clase Operators.kt para calcular la operacion
                 when(it){
 
-                    '0' -> result = numberPressed(BigDecimal(0))
+                    '0' -> result = numberSelected(BigDecimal(0))
 
-                    '1' -> result = numberPressed(BigDecimal(1))
+                    '1' -> result = numberSelected(BigDecimal(1))
 
-                    '2' -> result = numberPressed(BigDecimal(2))
+                    '2' -> result = numberSelected(BigDecimal(2))
 
-                    '3' -> result = numberPressed(BigDecimal(3))
+                    '3' -> result = numberSelected(BigDecimal(3))
 
-                    '4' -> result = numberPressed(BigDecimal(4))
+                    '4' -> result = numberSelected(BigDecimal(4))
 
-                    '5' -> result = numberPressed(BigDecimal(5))
+                    '5' -> result = numberSelected(BigDecimal(5))
 
-                    '6' -> result = numberPressed(BigDecimal(6))
+                    '6' -> result = numberSelected(BigDecimal(6))
 
-                    '7' -> result = numberPressed(BigDecimal(7))
+                    '7' -> result = numberSelected(BigDecimal(7))
 
-                    '8' -> result = numberPressed(BigDecimal(8))
+                    '8' -> result = numberSelected(BigDecimal(8))
 
-                    '9' -> result = numberPressed(BigDecimal(9))
+                    '9' -> result = numberSelected(BigDecimal(9))
 
                     '+' -> result = plusNum()
 
@@ -263,7 +261,7 @@ open class Operations {
     }
 
 
-    private fun filterCameraData(dataFromCamera: String) : String{
+    private fun filterData(dataFromCamera: String) : String{
 
         var operationToFilter = ""
         //Bucle  para encontrar los inputs
@@ -326,7 +324,7 @@ open class Operations {
         val blockList = arrayListOf("")
         filteringResult.forEach {
             // Aqui en caso de encontrar alguna operacion dividimos por bloques la operacion que recibimos ej:b1(14)b2(+)b3(37)
-            if (it == 'X' || it == '/' || it == '-' || it == '+') {
+            if (it == 'X' || it == '/' || it == '-' || it == '+' || it == '^' || it == '%') {
                 blockIndex++
                 // Al encontrar un operador incrementaremos el numero de bloques que tenemos y los separaremos
                 // En caso de que sea miltiplicacion o division marcaremos como que se tiene que reordenar la operacion
@@ -340,8 +338,14 @@ open class Operations {
                     '+' -> {
                         blockList.add("+")
                     }
-                    else -> { // if (it == '-') {
+                    '-' -> {
                         blockList.add("-")
+                    }
+                    '^' -> {
+                        blockList.add("^")
+                    }
+                    '%' -> {
+                        blockList.add("%")
                     }
                 }
 
