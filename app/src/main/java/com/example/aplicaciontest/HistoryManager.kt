@@ -31,7 +31,10 @@ class HistoryManager (val context: Context){
         saveData()
     }
 
-
+    public fun DestroyHistory()
+    {
+        context.deleteFile(fileName)
+    }
 
     fun saveData() {
         context.openFileOutput(fileName, Context.MODE_PRIVATE).use { io ->
@@ -46,7 +49,7 @@ class HistoryManager (val context: Context){
             context.openFileInput(fileName).use { io ->
                 ObjectInputStream(io).use {
                     //Asignarle los valores a la lista de arrays
-                    operationList.add( it.readObject() as String)
+                    operationList = it.readObject() as ArrayList<String>
                 }
             }
         } catch (e: IOException) {

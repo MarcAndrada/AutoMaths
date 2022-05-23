@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity() {
             if(result.allOperation != "0" && result.allOperation != "")
             {
                 //Guardar los datos
-                HistoryManager(this).AddOperation(result.allOperation)
+                HistoryManager(this).AddOperation(result.allOperation + " = " + result.result)
             }
         }
 

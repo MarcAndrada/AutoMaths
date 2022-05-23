@@ -28,7 +28,8 @@
         android:scaleY="1.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_camera_enhance_24" />
+        app:srcCompat="@drawable/ic_baseline_camera_enhance_24"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageButton
         android:id="@+id/history_icon"
@@ -41,20 +42,7 @@
         app:layout_anchorGravity="end|top"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_history_toggle_off_24" />
-
-    <ImageButton
-        android:id="@+id/settings_icon"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:backgroundTint="#00FFFFFF"
-        android:scaleX="1.5"
-        android:scaleY="1.5"
-        app:layout_anchor="@+id/include2"
-        app:layout_anchorGravity="top|center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/cam_icon"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_settings_24" />
+        app:srcCompat="@drawable/ic_baseline_history_toggle_off_24"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

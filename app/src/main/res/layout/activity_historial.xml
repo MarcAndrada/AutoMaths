@@ -16,7 +16,8 @@
         android:background="#00FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_keyboard_return_24" />
+        app:srcCompat="@drawable/ic_baseline_keyboard_return_24"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageButton
         android:id="@+id/deleteButton"
@@ -25,9 +26,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="#00FFFFFF"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_delete_24" />
+        app:srcCompat="@drawable/ic_baseline_delete_24"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/historialText1"
