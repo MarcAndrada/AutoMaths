@@ -1,4 +1,4 @@
-package com.example.aplicaciontest
+package com.example.aplicaciontest.Activities
 
 import android.Manifest
 import android.content.Intent
@@ -15,8 +15,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.findNavController
+import com.example.aplicaciontest.CameraReader
+import com.example.aplicaciontest.HistoryManager
+import com.example.aplicaciontest.Operations
+import com.example.aplicaciontest.R
 import com.example.aplicaciontest.databinding.ActivityMainBinding
 import java.io.File
 
@@ -141,6 +143,13 @@ class MainActivity : AppCompatActivity() {
             myText.text = result.allOperation
             myResultText.text = "${result.result}"
             myOperatorText.text = ""
+
+            //guardar en un archivo la operacion si la operacion entera es diferente a 0
+            if(result.allOperation != "0" && result.allOperation != "")
+            {
+                //Guardar los datos
+                HistoryManager(this).AddOperation(result.allOperation)
+            }
         }
 
         findViewById<Button>(R.id.key_delete).setOnClickListener {

@@ -12,9 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AplicacionTest">
-        <activity android:name=".HistorialActivity"></activity>
+        <activity android:name=".Activities.HistorialActivity"></activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:exported="true"
             android:label="AutoMaths"
             android:screenOrientation="portrait"
